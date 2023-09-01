@@ -1,47 +1,34 @@
 #include "binary_trees.h"
 
 /**
- * binary_tree_height - Measures the height of a binary tree
- * @tree: Pointer to the root node of the tree to measure the height
- * Return: The height of the tree
- */
-size_t binary_tree_height(const binary_tree_t *tree)
-{
-	size_t left_height, right_height;
-
-	/* Check if tree is NULL */
-	if (tree == NULL)
-		return (0);
-
-	/* Check if tree has no children */
-	if (tree->left == NULL && tree->right == NULL)
-		return (0);
-
-	/* Recursively calculate the height of the left and right subtrees */
-	left_height = binary_tree_height(tree->left);
-	right_height = binary_tree_height(tree->right);
-
-	/* Return one plus the maximum of the subtree heights */
-	return (1 + (left_height > right_height ? left_height : right_height));
-}
-
-/**
- * binary_tree_balance - Measures the balance factor of a binary tree
- * @tree: Pointer to the root node of the tree to measure the balance factor
- * Return: The balance factor of the tree
+ * binary_tree_balance - Measures the balance factor of a binary tree.
+ * @tree: A pointer to the root node of the tree to measure the balance factor.
+ *
+ * Return: If tree is NULL, return 0, else return balance factor.
  */
 int binary_tree_balance(const binary_tree_t *tree)
 {
-	int left_height, right_height;
+	if (tree)
+		return (binary_tree_height(tree->left) - binary_tree_height(tree->right));
 
-	/* Check if tree is NULL */
-	if (tree == NULL)
-		return (0);
+	return (0);
+}
 
-	/* Calculate the height of the left and right subtrees */
-	left_height = (int)binary_tree_height(tree->left);
-	right_height = (int)binary_tree_height(tree->right);
+/**
+ * binary_tree_height - Measures the height of a binary tree.
+ * @tree: A pointer to the root node of the tree to measure the height.
+ *
+ * Return: If tree is NULL, your function must return 0, else return height.
+ */
+size_t binary_tree_height(const binary_tree_t *tree)
+{
+	if (tree)
+	{
+		size_t l = 0, r = 0;
 
-	/* Return the difference between the subtree heights */
-	return (left_height - right_height);
+		l = tree->left ? 1 + binary_tree_height(tree->left) : 1;
+		r = tree->right ? 1 + binary_tree_height(tree->right) : 1;
+		return ((l > r) ? l : r);
+	}
+	return (0);
 }
